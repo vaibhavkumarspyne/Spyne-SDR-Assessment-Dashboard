@@ -1,0 +1,994 @@
+[
+  {
+    "key": "m1",
+    "week": "Week 1",
+    "title": "Dealer Universe",
+    "description": "Dealer types, OEMs, used sourcing, the vehicle journey and how a rooftop makes money.",
+    "questions": [
+      {
+        "topic": "Dealer types",
+        "prompt": "What most clearly separates a franchise dealer from an independent dealer?",
+        "options": [
+          "It holds an agreement with a manufacturer (OEM) to sell and service that brand's new vehicles",
+          "It only sells used vehicles",
+          "It has more than one rooftop",
+          "It does not run a service department"
+        ],
+        "correctIndex": 0,
+        "why": "Franchise rooftops sell new vehicles under an OEM agreement. Independents sell used vehicles only. Multiple rooftops make a dealer group, not a franchise.",
+        "example": "A Toyota franchise rooftop sells new Camrys under its Toyota agreement and also sells used cars of any make. An independent lot down the road sells only used cars and has no OEM agreement."
+      },
+      {
+        "topic": "Dealer types",
+        "prompt": "A dealer group is best described as:",
+        "options": [
+          "One owner or company operating several rooftops, often across brands",
+          "A buying cooperative of independent dealers",
+          "The OEM's regional sales office",
+          "A marketing agency that serves many dealers"
+        ],
+        "correctIndex": 0,
+        "why": "A dealer group owns and runs multiple rooftops. That matters for outreach because decisions may sit at group level as well as at each store.",
+        "example": "One owner runs a Ford store, a Honda store and a Kia store across two cities. That's a dealer group of three rooftops, and some decisions may sit with a group-level director."
+      },
+      {
+        "topic": "Used car sourcing",
+        "prompt": "Which of these is NOT a typical source of used inventory?",
+        "options": [
+          "Trade-ins",
+          "Auctions",
+          "Lease returns",
+          "The OEM's new-vehicle allocation"
+        ],
+        "correctIndex": 3,
+        "why": "Used inventory comes from trade-ins, auctions, lease returns and direct purchases from consumers. OEM allocation is new inventory.",
+        "example": "A used car manager restocks with a customer's trade-in, two auction units and a lease return. A brand-new unit from the OEM's allocation goes to the new-car side, not used inventory."
+      },
+      {
+        "topic": "Used car sourcing",
+        "prompt": "When a dealer records ACV on a trade-in, what does it mean?",
+        "options": [
+          "Actual cash value: what the vehicle is really worth at wholesale today",
+          "The advertised price on the website",
+          "The amount the customer still owes on the loan",
+          "The OEM's suggested retail price"
+        ],
+        "correctIndex": 0,
+        "why": "ACV is the real wholesale value today, which sets the cost basis for the used deal.",
+        "example": "A customer is offered $18,000 for a trade-in, but the store records ACV as $16,500, its real wholesale value today. That $16,500 is the cost basis for the used deal."
+      },
+      {
+        "topic": "Vehicle journey",
+        "prompt": "Put the used-vehicle journey in the right order.",
+        "options": [
+          "Acquisition, reconditioning, photography, listing live on the dealer website",
+          "Photography, acquisition, listing, reconditioning",
+          "Listing, acquisition, photography, reconditioning",
+          "Reconditioning, listing, acquisition, photography"
+        ],
+        "correctIndex": 0,
+        "why": "The car is acquired, reconditioned, photographed and merchandised, then listed. Photography gates the listing, which is where Spyne fits.",
+        "example": "A car is bought Monday, reconditioned by Wednesday, photographed Thursday and live online Friday. Photography sits between recon and listing, which is where Spyne helps."
+      },
+      {
+        "topic": "Turn speed",
+        "prompt": "What does time to line measure?",
+        "options": [
+          "Days from acquiring a vehicle until it is reconditioned, photographed, priced and live for sale",
+          "Time a customer waits in the service line",
+          "Minutes to answer an inbound call",
+          "Days from sale to delivery"
+        ],
+        "correctIndex": 0,
+        "why": "Time to line is the clock from acquisition to listed. Shortening it is the core of the Studio AI story.",
+        "example": "Acquired on the 1st and live on the website on the 9th means 8 days to line. Cutting that to 4 days means the car can start selling 4 days earlier."
+      },
+      {
+        "topic": "Turn speed",
+        "prompt": "Industry estimates put the cost of a used vehicle sitting unsold at roughly how much per day?",
+        "options": [
+          "$5 to $10",
+          "$37 to $75",
+          "$200 to $300",
+          "Over $500"
+        ],
+        "correctIndex": 1,
+        "why": "The commonly cited range is $37 to $75 per vehicle per day (floorplan interest, depreciation, insurance, lot cost). Days removed are cost removed.",
+        "example": "At $50 a day, 40 used cars each waiting 5 extra days to go live costs about $10,000 (40 × 5 × $50) before anyone has even seen them online."
+      },
+      {
+        "topic": "Dealer economics",
+        "prompt": "Which part of the rooftop produces roughly half of dealership gross profit on a small share of revenue?",
+        "options": [
+          "New vehicle sales",
+          "Used vehicle sales",
+          "Fixed ops (service and parts)",
+          "The website"
+        ],
+        "correctIndex": 2,
+        "why": "Service and parts carry far higher margins than vehicle sales, which is why fixed ops matters so much to dealers.",
+        "example": "A rooftop's service drive brings in far less revenue than vehicle sales, yet it can produce around half the store's gross profit because service margins are much higher."
+      },
+      {
+        "topic": "OEM role",
+        "prompt": "Why do OEM brand standards matter when pitching merchandising to a franchise rooftop?",
+        "options": [
+          "They can set rules for how the brand and its vehicles are presented, so listing images need to stay compliant",
+          "OEMs choose the dealer's photography vendor for them",
+          "OEMs pay for all used-car photos",
+          "They only apply to independent dealers"
+        ],
+        "correctIndex": 0,
+        "why": "Franchise stores work within brand standards, so consistent, compliant presentation is part of the value.",
+        "example": "A franchise store may need its listings to follow the brand's presentation rules, so consistent, compliant backgrounds and angles matter as much as speed."
+      }
+    ]
+  },
+  {
+    "key": "m2",
+    "week": "Week 1",
+    "title": "Spyne, personas and competitors",
+    "description": "Studio AI, Vini AI, who buys and who blocks, and how Spyne differs.",
+    "questions": [
+      {
+        "topic": "Studio AI",
+        "prompt": "What does Studio AI do for a dealer?",
+        "options": [
+          "Turns smartphone capture into publish-ready listing images, 360 spins and video",
+          "Replaces the dealer's DMS",
+          "Sets the price of each used vehicle",
+          "Runs the dealer's paid ads"
+        ],
+        "correctIndex": 0,
+        "why": "Studio AI is visual merchandising: guided capture, virtual studio backgrounds, 360 spins, video and distribution to the website and feeds.",
+        "example": "A porter photographs a used SUV on a phone, and Studio AI turns it into studio-background images, a 360 spin and a walkaround video, then publishes them to the website."
+      },
+      {
+        "topic": "Studio AI",
+        "prompt": "What problem does guided capture solve?",
+        "options": [
+          "Output quality no longer depends on who is holding the phone",
+          "It removes the need to photograph vehicles at all",
+          "It books service appointments",
+          "It decodes VINs for the F&I office"
+        ],
+        "correctIndex": 0,
+        "why": "The app walks the lot attendant through the shot list, so results are consistent whoever takes the photos.",
+        "example": "A new lot attendant who has never shot a car follows the on-screen shot list and gets the same angles as the most experienced porter."
+      },
+      {
+        "topic": "Studio AI",
+        "prompt": "How does the virtual studio compare with a physical turntable booth?",
+        "options": [
+          "Studio-grade backgrounds without the large capital cost of a booth",
+          "It needs a booth to work",
+          "It only works indoors",
+          "It is only for new vehicles"
+        ],
+        "correctIndex": 0,
+        "why": "Virtual backgrounds deliver a studio look from a phone capture, without installation capex.",
+        "example": "A store that can't spend on a turntable booth still gets clean, consistent studio backgrounds from phone photos taken on the lot."
+      },
+      {
+        "topic": "Vini AI",
+        "prompt": "What is Vini AI?",
+        "options": [
+          "Conversational agents across voice, chat and SMS for sales and service",
+          "A photo-editing tool",
+          "An auction platform",
+          "A website builder"
+        ],
+        "correctIndex": 0,
+        "why": "Vini AI answers and makes calls and messages, qualifies, books appointments and writes back to the dealer's systems.",
+        "example": "A customer calls at 8pm about a service appointment. Vini answers, books Thursday 8am in the scheduler and sends a text confirmation."
+      },
+      {
+        "topic": "Personas",
+        "prompt": "Whose job is literally inventory turn speed?",
+        "options": [
+          "Used Car Manager",
+          "Service Advisor",
+          "F&I Manager",
+          "Controller"
+        ],
+        "correctIndex": 0,
+        "why": "The Used Car Manager owns acquisition, pricing, aging and turn. They feel the time-to-line pain most directly.",
+        "example": "The used car manager watches how long each unit sits and when to reprice or wholesale it, so days to line is their pain directly."
+      },
+      {
+        "topic": "Personas",
+        "prompt": "Who is usually the economic buyer for a product that touches more than one department?",
+        "options": [
+          "The General Manager",
+          "A sales consultant",
+          "A lot porter",
+          "The receptionist"
+        ],
+        "correctIndex": 0,
+        "why": "The GM owns the whole store P&L and signs for cross-department purchases. The person who benefits is often not the person who signs.",
+        "example": "The used car manager loves the product, but the GM signs because it touches used, merchandising and the website budget."
+      },
+      {
+        "topic": "Personas",
+        "prompt": "Who is most likely to block a deal if the product reads as a headcount threat?",
+        "options": [
+          "The BDC or internet manager",
+          "The parts manager",
+          "The OEM rep",
+          "The technician"
+        ],
+        "correctIndex": 0,
+        "why": "BDC managers own phones and appointments. Position Vini as covering after-hours and overflow, not replacing their team.",
+        "example": "If Vini is pitched as 'replaces your callers', the BDC manager pushes back. Pitched as 'answers the after-hours calls your team misses', they're more likely to support it."
+      },
+      {
+        "topic": "Dealer tech stack",
+        "prompt": "What is vAuto mainly used for?",
+        "options": [
+          "Used inventory management and market pricing",
+          "Dealer websites",
+          "Service scheduling",
+          "Payroll"
+        ],
+        "correctIndex": 0,
+        "why": "vAuto (Cox Automotive) is an inventory and pricing tool. It is part of the stack Spyne works alongside.",
+        "example": "A used car manager opens vAuto to see what similar units sell for nearby, then sets the price for a trade-in."
+      },
+      {
+        "topic": "Dealer tech stack",
+        "prompt": "Dealer.com, Dealer Inspire and DealerOn are examples of:",
+        "options": [
+          "Dealer website providers",
+          "DMS platforms",
+          "Auction houses",
+          "Lenders"
+        ],
+        "correctIndex": 0,
+        "why": "These host the dealer's website, SRPs and VDPs, where Spyne's images end up.",
+        "example": "A shopper on the store's website browses search results and opens a vehicle details page. That website is hosted by a provider like Dealer.com or DealerOn."
+      },
+      {
+        "topic": "Competitors",
+        "prompt": "In merchandising, Impel is best known for:",
+        "options": [
+          "360 walkaround content and VIN-level retargeting with a large installed base",
+          "Being a DMS",
+          "Auction logistics",
+          "Floorplan financing"
+        ],
+        "correctIndex": 0,
+        "why": "Impel is the incumbent to beat in merchandising. Know its strengths and don't bash it. Ask what the dealer would improve.",
+        "example": "A prospect says 'we use Impel for 360s'. Acknowledge it, then ask about turnaround and onboarding rather than criticizing Impel."
+      },
+      {
+        "topic": "Positioning",
+        "prompt": "How does Spyne sit relative to the dealer's DMS (CDK, Reynolds, Tekion and others)?",
+        "options": [
+          "Above it, working alongside and integrating with it",
+          "It replaces the DMS",
+          "It competes with the DMS",
+          "It ignores the DMS"
+        ],
+        "correctIndex": 0,
+        "why": "Dealers almost never replace their DMS. Spyne wins above the DMS, never against it.",
+        "example": "A dealer asks 'Do we have to leave CDK?' The answer is no: Spyne plugs into their existing systems."
+      }
+    ]
+  },
+  {
+    "key": "m1f",
+    "week": "Week 1",
+    "title": "Week 1 scenarios assessment",
+    "description": "The Week 1 Google Form questions: turn speed, photography setups, the vehicle journey, the tech stack and objections.",
+    "questions": [
+      {
+        "topic": "Turn speed",
+        "prompt": "Why does the speed at which a used car goes live online matter so much to a dealership GM?",
+        "options": [
+          "The longer a car sits unlisted, the more holding cost it carries, so days-to-turn go up",
+          "Faster listings reduce the cost of buying cars at auction",
+          "Faster listings let the store skip reconditioning",
+          "The OEM pays a bonus for every photo uploaded"
+        ],
+        "correctIndex": 0,
+        "why": "Every day unlisted adds holding cost and pushes out days to turn. Speed to live is a cost and turn argument, not a purchasing one.",
+        "example": "Ten cars sitting unlisted for 4 extra days at $50 a day is about $2,000 of holding cost, and they sell later, so days to turn go up."
+      },
+      {
+        "topic": "Photography setups",
+        "prompt": "A dealer's vendor visits the lot twice a week to photograph cars. Which pain point should you raise first?",
+        "options": [
+          "Cars that arrive just after a visit can sit unlisted for days waiting for the next one",
+          "The vendor's photos are always low resolution",
+          "Twice a week is more often than any dealer needs",
+          "Vendors can't photograph new vehicles"
+        ],
+        "correctIndex": 0,
+        "why": "A fixed visit schedule creates waiting time. A car that lands the day after a visit waits days to go live.",
+        "example": "The vendor comes Monday and Thursday. A trade-in that's ready Tuesday morning waits until Thursday to be photographed, two days of holding cost."
+      },
+      {
+        "topic": "Account navigation",
+        "prompt": "You pitched the used car manager and they love the idea, but an external marketing agency manages the dealership's photos and listings. What's the best next step?",
+        "options": [
+          "Find out who owns the agency relationship and bring that decision-maker, or the agency, into the conversation",
+          "Tell them agencies are overpriced",
+          "Ask the used car manager to cancel the agency contract today",
+          "Drop the account because an agency is involved"
+        ],
+        "correctIndex": 0,
+        "why": "The champion isn't the owner of the agency relationship. Multi-thread to whoever decides on the vendor.",
+        "example": "The used car manager is your champion, but the marketing director owns the agency contract. Bring the marketing director into the next call."
+      },
+      {
+        "topic": "Vehicle journey",
+        "prompt": "A dealer says cars take about 6 days to appear online after they arrive. Where should you probe first?",
+        "options": [
+          "The gap between reconditioning finishing and the car being photographed and listed",
+          "What happens after the car is sold",
+          "How the OEM sets the sticker price",
+          "The F&I office's product menu"
+        ],
+        "correctIndex": 0,
+        "why": "The recon-to-live gap is where photography and listing delays hide, and it is the gap Spyne shrinks.",
+        "example": "Recon finishes on day 2 and the car goes live on day 6. Ask what happens in those 4 days: who photographs it, and how long uploading takes."
+      },
+      {
+        "topic": "Dealer tech stack",
+        "prompt": "Which option correctly categorizes these tools?",
+        "options": [
+          "HomeNet is an inventory/listing tool, and DealerOn is a website provider",
+          "vAuto is a website provider, and DealerOn is an inventory management tool",
+          "Dealer Inspire is an inventory tool, and HomeNet is a website provider",
+          "VinSolutions is a website provider, and Dealer.com is a DMS"
+        ],
+        "correctIndex": 0,
+        "why": "HomeNet manages inventory and listings; DealerOn, Dealer Inspire and Dealer.com are website providers; vAuto is inventory and pricing; VinSolutions is a CRM.",
+        "example": "HomeNet holds the inventory and listing data. DealerOn hosts the dealer website that shoppers browse."
+      },
+      {
+        "topic": "Dealer types",
+        "prompt": "A prospect says, \"We're a Ford store with a used car lot.\" What does this most reliably tell you?",
+        "options": [
+          "A franchise dealer authorized by Ford that sells new Fords and also sells used vehicles",
+          "An independent dealer that only sells used Fords",
+          "A dealer group with a single rooftop",
+          "A Ford-owned retail outlet"
+        ],
+        "correctIndex": 0,
+        "why": "\"A Ford store\" means a Ford franchise. Franchise rooftops sell that brand new and sell used vehicles of any make.",
+        "example": "'We're a Ford store with a used lot' means a Ford franchise: new Fords plus used vehicles of any make."
+      },
+      {
+        "topic": "Photography setups",
+        "prompt": "A dealer group has one physical photo booth at its main location and six rooftops in total. What is the biggest challenge with this setup?",
+        "options": [
+          "Cars from other rooftops must be transported to the booth, which adds delay and logistics, and the setup is hard to replicate across stores",
+          "Booths only work for new vehicles",
+          "Booth photos are too high quality for dealer websites",
+          "Booths can't photograph interiors"
+        ],
+        "correctIndex": 0,
+        "why": "One booth for six stores means moving cars to the booth, adding days and logistics, and it doesn't scale.",
+        "example": "A car at a rooftop 30 miles away has to be driven to the booth and back before it can be listed, and the other five stores can't easily copy the setup."
+      },
+      {
+        "topic": "Photography setups",
+        "prompt": "What is the main risk of self-serve photography (staff shooting on phones) across a multi-store group?",
+        "options": [
+          "Inconsistent photo quality between stores and staff, plus time pulled away from selling",
+          "Phone cameras can't capture a vehicle's VIN",
+          "Phones aren't allowed on dealer lots",
+          "It always costs more than a booth"
+        ],
+        "correctIndex": 0,
+        "why": "Without guidance, quality varies by person and store, and the shooting time comes out of selling time. Guided capture addresses the first problem.",
+        "example": "Store A's photos are bright and centred while Store B's are dark and cropped, and the salesperson taking them isn't selling while they shoot."
+      },
+      {
+        "topic": "Vehicle journey",
+        "prompt": "A car is bought at auction on Monday, recon finishes Wednesday, photos are taken Friday, and it goes live Saturday. Which gap is a photography solution most directly designed to shrink?",
+        "options": [
+          "Wednesday to Saturday (waiting for photos and listing)",
+          "Saturday onward (after going live)",
+          "Monday to Wednesday (reconditioning)",
+          "Before Monday (sourcing at auction)"
+        ],
+        "correctIndex": 0,
+        "why": "Recon done to live online is the photography and listing gap. Recon itself sits with service and recon vendors.",
+        "example": "Recon is done Wednesday but the car goes live Saturday. Those 3 days are the photography and listing gap."
+      },
+      {
+        "topic": "Dealer tech stack",
+        "prompt": "Which group contains only website providers?",
+        "options": [
+          "DealerOn, Dealer Inspire, Dealer.com",
+          "HomeNet, Dealer Inspire, VinSolutions",
+          "VinSolutions, vAuto, Dealer.com",
+          "vAuto, HomeNet, CDK"
+        ],
+        "correctIndex": 0,
+        "why": "HomeNet is inventory and listings, VinSolutions is a CRM, vAuto is inventory and pricing, and CDK is a DMS.",
+        "example": "DealerOn, Dealer Inspire and Dealer.com all build and host dealer websites. HomeNet, vAuto and VinSolutions are inventory or CRM tools."
+      },
+      {
+        "topic": "Dealer tech stack",
+        "prompt": "A dealer says, \"Our photos look great in our system, but they don't show up properly on our website.\" What is the most likely cause?",
+        "options": [
+          "The images aren't flowing correctly through the inventory feed to the website provider",
+          "The photos were taken outdoors",
+          "The camera resolution is too high",
+          "The OEM blocks used-car photos"
+        ],
+        "correctIndex": 0,
+        "why": "Photos travel from the inventory system to the website provider through a feed. A broken feed is the usual reason they don't appear.",
+        "example": "Photos look perfect in the inventory tool, but the website shows 'photos coming soon' because the feed to the website provider isn't passing them through."
+      },
+      {
+        "topic": "Objection handling",
+        "prompt": "A prospect says, \"We already outsource photos to an agency.\" What is the most useful first reaction?",
+        "options": [
+          "Ask how the arrangement works: turnaround time, cost per car, and who decides on vendor changes",
+          "Tell them agencies are overpriced",
+          "End the call politely",
+          "Offer a free trial before asking anything"
+        ],
+        "correctIndex": 0,
+        "why": "Discover first. Turnaround, cost per car and the decision-maker show you whether there's a gap worth pursuing.",
+        "example": "Ask: 'How long after recon do the agency's photos go live, what do you pay per car, and who decides on the agency?' Then decide whether there's a gap."
+      },
+      {
+        "topic": "Photography setups",
+        "prompt": "A 5-rooftop group in Minnesota shoots outdoors on the lot with staff phones. In January, photos are inconsistent, listings are delayed whenever it snows, and cars sit unlisted for days. What is the core problem?",
+        "options": [
+          "Outdoor shoots depend on weather and lighting, so quality and speed suffer in bad conditions",
+          "Their staff phones are too old",
+          "The group has too many rooftops",
+          "Minnesota shoppers don't browse online"
+        ],
+        "correctIndex": 0,
+        "why": "Outdoor capture is at the mercy of weather and light. Virtual backgrounds and guided capture reduce that dependence.",
+        "example": "After a snowstorm the lot can't be shot for two days, so cars wait unlisted and the photos that do get taken look grey and inconsistent."
+      },
+      {
+        "topic": "Personas",
+        "prompt": "In a large dealer group, which role is most likely to care about how fast used cars get photographed and listed online?",
+        "options": [
+          "The used car manager or internet/digital manager",
+          "The porter or lot attendant",
+          "The F&I manager",
+          "The parts manager"
+        ],
+        "correctIndex": 0,
+        "why": "The used car manager owns turn, and the internet or digital manager owns online merchandising. The porter does the work but isn't measured on it.",
+        "example": "The used car manager is measured on turn, and the digital manager owns how listings look online. Both care about time to live."
+      }
+    ]
+  },
+  {
+    "key": "m3",
+    "week": "Week 2",
+    "title": "Outreach fundamentals",
+    "description": "Data vetting, account navigation, HubSpot, cold email and cold call structure.",
+    "questions": [
+      {
+        "topic": "Data vetting",
+        "prompt": "You get a fresh list of 200 dealer contacts. What do you do first?",
+        "options": [
+          "Vet it: confirm the rooftop is active, the person still works there and the role and contact details are right",
+          "Start calling from the top",
+          "Email everyone the same template",
+          "Upload it to HubSpot and sequence it unchanged"
+        ],
+        "correctIndex": 0,
+        "why": "Bad data wastes dials and damages domain reputation. Vet before you reach out.",
+        "example": "Before calling 200 contacts, check a sample: is the store still open, is the GM still there, is the number right? Fix the list first."
+      },
+      {
+        "topic": "Data vetting",
+        "prompt": "Which is a red flag during data vetting?",
+        "options": [
+          "LinkedIn shows the GM left the store six months ago",
+          "The rooftop has a website",
+          "The email domain matches the dealership",
+          "The contact has a direct line"
+        ],
+        "correctIndex": 0,
+        "why": "Stale contacts are the most common data problem. Update the record and find the current person.",
+        "example": "The list says John Smith is GM, but LinkedIn shows he moved to another group in March. Update the record and find the current GM."
+      },
+      {
+        "topic": "Account navigation",
+        "prompt": "A dealer group runs 10 rooftops. What is the best way to navigate it?",
+        "options": [
+          "Map group-level leaders and rooftop-level GMs and Used Car Managers, then sequence outreach deliberately",
+          "Email every employee at once",
+          "Only call the receptionist at each store",
+          "Pick one random store and ignore the rest"
+        ],
+        "correctIndex": 0,
+        "why": "Groups often decide centrally but feel pain at each rooftop. Multi-thread with a plan.",
+        "example": "For a 10-rooftop group, map the group used-car director plus each store's GM and used car manager, then decide who to contact first."
+      },
+      {
+        "topic": "Prospecting and enrichment",
+        "prompt": "The Used Car Manager is not listed anywhere online. What is a sensible next step?",
+        "options": [
+          "Check the dealer's staff page and LinkedIn, then call the main line and ask for them by role",
+          "Skip the account",
+          "Guess an email format and blast it",
+          "Email the OEM"
+        ],
+        "correctIndex": 0,
+        "why": "Enrichment means using the website, LinkedIn and a short call to reception to find the right person.",
+        "example": "The UCM isn't on the website. Check LinkedIn, then call the main line and ask: 'Who manages used inventory there?'"
+      },
+      {
+        "topic": "Cold email",
+        "prompt": "Which cold email structure works best?",
+        "options": [
+          "Short, personalized opener, one relevant pain, brief value, one clear ask",
+          "Long company history, product feature list, three links",
+          "Attachment-only email with no text",
+          "A generic newsletter"
+        ],
+        "correctIndex": 0,
+        "why": "Keep it short, specific to the rooftop and persona, with one low-friction call to action.",
+        "example": "Three short lines: an observation about their site, the cost of slow listings, and 'Worth a 15-minute look Thursday?'"
+      },
+      {
+        "topic": "Cold email",
+        "prompt": "Which opener is strongest for a Used Car Manager at a Ford rooftop?",
+        "options": [
+          "\"Noticed several used units on your site still show placeholder photos. How many days does it take a trade-in to go live?\"",
+          "\"Spyne is a leading AI company founded in 2018.\"",
+          "\"Hope you are doing well. I wanted to introduce our platform.\"",
+          "\"Do you have 30 minutes for a demo of our features?\""
+        ],
+        "correctIndex": 0,
+        "why": "An observation from their own website tied to their metric earns attention. Company history and feature talk do not.",
+        "example": "'I saw 12 used units on your site with placeholder photos. How long does a trade-in take to go live?' That beats any company introduction."
+      },
+      {
+        "topic": "Cold call",
+        "prompt": "What is the right order for a cold call?",
+        "options": [
+          "Opener, reason for calling, relevant pain or value, a discovery question, clear next step",
+          "Price, features, opener, close",
+          "Demo request immediately, then introduce yourself",
+          "Read the full product script without pausing"
+        ],
+        "correctIndex": 0,
+        "why": "Earn the next 30 seconds, make it relevant, ask, then agree on a next step.",
+        "example": "'Hi, it's Asha from Spyne. I'm calling because trade-ins at stores like yours often wait days for photos. How long does it take you today?' Then agree a next step."
+      },
+      {
+        "topic": "HubSpot",
+        "prompt": "Why log every call, email and next step in HubSpot the same day?",
+        "options": [
+          "So pipeline, follow-ups and handoffs to AEs are accurate and visible",
+          "It is optional and only for managers",
+          "To increase dial counts",
+          "HubSpot deletes old records"
+        ],
+        "correctIndex": 0,
+        "why": "Clean CRM records protect follow-ups and make the SAL handoff to sales work. CRM hygiene is a Month 1 exit criterion.",
+        "example": "You log 'UCM interested, pain: 6 days to live, demo Tue 3pm' the same day, so the AE can prepare and nothing is lost."
+      },
+      {
+        "topic": "Personalization",
+        "prompt": "Which is the best source of personalization for a merchandising pitch?",
+        "options": [
+          "The dealer's own VDPs: photo quality, backgrounds, missing photos and video",
+          "Their stock price",
+          "The weather in their city",
+          "A generic industry report"
+        ],
+        "correctIndex": 0,
+        "why": "Their listings show the problem directly and make the outreach specific.",
+        "example": "Their VDPs show mixed backgrounds and three cars with no photos. Open your email with exactly that."
+      }
+    ]
+  },
+  {
+    "key": "m4",
+    "week": "Week 3",
+    "title": "Call readiness and objections",
+    "description": "Discovery, objection handling, the dealer's P&L language and clear CTAs.",
+    "questions": [
+      {
+        "topic": "Objection handling",
+        "prompt": "\"Our porter takes the photos, it costs us nothing.\" Best response?",
+        "options": [
+          "Acknowledge it, then ask how many days pass from intake to the car being live online, and connect that to holding cost per day",
+          "Tell them their photos look bad",
+          "Offer a discount immediately",
+          "Agree and end the call"
+        ],
+        "correctIndex": 0,
+        "why": "The porter isn't free if cars wait days to go live. Make the cost of time visible with their own numbers.",
+        "example": "'Makes sense. How many days from a trade-in arriving to it being live? If it's 5 days at $50 a day, that's $250 a car before anyone sees it.'"
+      },
+      {
+        "topic": "Objection handling",
+        "prompt": "\"Just send me an email.\" Best response?",
+        "options": [
+          "Agree, ask one quick question so the email is relevant, and set a specific time to follow up",
+          "Send the full deck and wait",
+          "Argue to stay on the call",
+          "Hang up"
+        ],
+        "correctIndex": 0,
+        "why": "Turn the brush-off into a qualifying question and a committed next step.",
+        "example": "'Happy to. So it's useful: is the bigger issue photo quality or how long cars take to go live? I'll send it and call Thursday at 11.'"
+      },
+      {
+        "topic": "Objection handling",
+        "prompt": "\"We already use another vendor for photos.\" Best response?",
+        "options": [
+          "Ask what is working and what they would improve, such as turnaround, consistency or cost, then position the difference",
+          "Criticize the other vendor",
+          "Tell them to cancel their contract today",
+          "Say nothing and move on"
+        ],
+        "correctIndex": 0,
+        "why": "Don't bash competitors. Find the gap in their current setup and connect it to Spyne.",
+        "example": "'Good to hear. What's working well, and if you could change one thing, would it be turnaround, consistency or cost?'"
+      },
+      {
+        "topic": "Objection handling",
+        "prompt": "\"There's no budget this year.\" Best reframe?",
+        "options": [
+          "Frame the value as cost and days removed from inventory, not as new spend to sell more cars",
+          "Promise it will double their sales",
+          "Offer a free product forever",
+          "Ask for their CFO's personal number"
+        ],
+        "correctIndex": 0,
+        "why": "Front-end margins are tight and volume isn't growing. Justify value in cost removed and days removed.",
+        "example": "'Understood. This isn't about new spend to sell more. It's about the days and holding cost you're already paying on every unlisted car.'"
+      },
+      {
+        "topic": "Discovery",
+        "prompt": "Which is the strongest discovery question for a Used Car Manager?",
+        "options": [
+          "\"Walk me through what happens from a trade-in arriving to it going live on your site. How many days is that today?\"",
+          "\"Do you like photos?\"",
+          "\"Are you happy?\"",
+          "\"Can I send you a brochure?\""
+        ],
+        "correctIndex": 0,
+        "why": "Open questions about their process and metric uncover pain you can quantify.",
+        "example": "Ask 'Walk me through what happens when a trade-in comes in' rather than 'Do you have a photo problem?' The answer gives you their real timeline."
+      },
+      {
+        "topic": "Persona language",
+        "prompt": "You're talking to a Fixed Ops Director. Which language lands best?",
+        "options": [
+          "Absorption, service gross, booked appointments and customer retention",
+          "\"Our AI is cutting edge\"",
+          "Photo backgrounds",
+          "Number of features"
+        ],
+        "correctIndex": 0,
+        "why": "Sell the P&L, not the technology. Fixed ops buys gross, absorption and retention.",
+        "example": "With a fixed ops director, talk about booked service appointments and absorption, not how advanced the AI is."
+      },
+      {
+        "topic": "CTAs",
+        "prompt": "Which is the strongest close to a good call?",
+        "options": [
+          "A specific date and time for a demo, with the decision-maker attending",
+          "\"I'll circle back sometime\"",
+          "\"Let me know if you're interested\"",
+          "\"Check our website\""
+        ],
+        "correctIndex": 0,
+        "why": "A clear, specific next step with the right people is what turns a conversation into an SAL.",
+        "example": "'Can we put 20 minutes on Thursday at 2pm with you and your GM?' is a real next step. 'I'll follow up sometime' isn't."
+      },
+      {
+        "topic": "Gatekeepers",
+        "prompt": "Reception answers. What's your best approach?",
+        "options": [
+          "Be brief and confident, ask for the Used Car Manager by name or role, and say what it's regarding in one line",
+          "Pitch the receptionist the full product",
+          "Ask for 'whoever is in charge of anything'",
+          "Refuse to say why you're calling"
+        ],
+        "correctIndex": 0,
+        "why": "Short, specific and courteous gets you transferred.",
+        "example": "'Hi, could you put me through to your used car manager? It's about how quickly your trade-ins go live online.'"
+      },
+      {
+        "topic": "Voicemail",
+        "prompt": "What makes a good prospecting voicemail?",
+        "options": [
+          "Under 30 seconds: name, one relevant reason, number, and a note that you'll follow up by email",
+          "A two-minute product overview",
+          "No name or number",
+          "Music"
+        ],
+        "correctIndex": 0,
+        "why": "Keep it short, relevant and tied to your next touch.",
+        "example": "'Hi Raj, Asha from Spyne. Quick one about how fast your trade-ins go live. I'll email you today. My number is ...' Under 30 seconds."
+      }
+    ]
+  },
+  {
+    "key": "m5",
+    "week": "Week 3",
+    "title": "SAL qualification and KPIs",
+    "description": "What counts as an SAL, the ramp targets and how performance is reviewed.",
+    "questions": [
+      {
+        "topic": "SAL criteria",
+        "prompt": "Which of these is NOT one of our SAL criteria?",
+        "options": [
+          "The prospect opened three of your emails",
+          "ICP fit",
+          "Relevant decision-maker or stakeholder",
+          "Accepted by the AE or sales team"
+        ],
+        "correctIndex": 0,
+        "why": "Opens are activity, not qualification. An SAL needs ICP fit, a relevant persona, a business need, real engagement, captured qualification fields and sales acceptance.",
+        "example": "A prospect opened three emails but never replied. That's activity, not an SAL."
+      },
+      {
+        "topic": "SAL criteria",
+        "prompt": "You booked a meeting with a sales consultant at a store outside the ICP. Does it count as an SAL?",
+        "options": [
+          "No: it fails ICP fit and relevant persona",
+          "Yes: any meeting counts",
+          "Yes, if they sounded keen",
+          "Only if you log it twice"
+        ],
+        "correctIndex": 0,
+        "why": "SALs that don't meet the agreed criteria are not counted, even if the number would otherwise be met.",
+        "example": "You booked a call with a salesperson at a 15-car-a-year lot outside the ICP. It doesn't count, however friendly the call was."
+      },
+      {
+        "topic": "Ramp targets",
+        "prompt": "What is the SAL target in each of Months 2 and 3?",
+        "options": [
+          "1",
+          "2",
+          "4",
+          "6"
+        ],
+        "correctIndex": 1,
+        "why": "2 SALs per month in Months 2 and 3.",
+        "example": "Month 2: 2 SALs. Month 3: 2 SALs. That's 4 possible across the ramp."
+      },
+      {
+        "topic": "Ramp targets",
+        "prompt": "What is needed to complete the ramp-up?",
+        "options": [
+          "At least 3 of 4 SALs across Months 2 and 3",
+          "4 of 4 SALs only",
+          "Any 1 SAL",
+          "100 calls a day"
+        ],
+        "correctIndex": 0,
+        "why": "3 of 4 completes the ramp; 4 of 4 fully achieves it.",
+        "example": "An SDR with 1 SAL in Month 2 and 2 in Month 3 has 3 of 4 and completes the ramp."
+      },
+      {
+        "topic": "Ramp targets",
+        "prompt": "When does a month count as qualified?",
+        "options": [
+          "When both its SAL target and ARR target are met",
+          "When the activity target is met",
+          "When the SAL target alone is met",
+          "When the manager approves the calls"
+        ],
+        "correctIndex": 0,
+        "why": "A qualified month needs both the SAL and the ARR target.",
+        "example": "2 SALs but ARR short of $16,000 means the month isn't qualified. Both targets have to be met."
+      },
+      {
+        "topic": "KPI framework",
+        "prompt": "What are the three KPI layers, in order?",
+        "options": [
+          "Activity, conversion, outcome",
+          "Outcome, activity, conversion",
+          "Conversion, outcome, activity",
+          "Calls, emails, meetings"
+        ],
+        "correctIndex": 0,
+        "why": "Activity diagnoses effort, conversion shows whether it engages, and outcome (SALs) is what counts.",
+        "example": "100 dials (activity) lead to 8 conversations (conversion), which lead to 2 SALs (outcome)."
+      },
+      {
+        "topic": "KPI framework",
+        "prompt": "Your week: 150 dials, 5 connects, 4 conversations, 2 meetings. Where is the biggest drop-off?",
+        "options": [
+          "Dials to connects: work on list quality and call timing",
+          "Conversations to meetings",
+          "Meetings to SALs",
+          "There is no drop-off"
+        ],
+        "correctIndex": 0,
+        "why": "About 3% of dials connected. Fix data quality and when you call before polishing the pitch.",
+        "example": "150 dials but only 5 connects is about 3%. Clean the list and try different call times before rewriting the pitch."
+      },
+      {
+        "topic": "SAL criteria",
+        "prompt": "When should you involve the AE?",
+        "options": [
+          "Once the opportunity meets the SAL criteria and the prospect agrees to a meeting",
+          "On the first cold email",
+          "Never: SDRs close deals",
+          "Only after the contract is signed"
+        ],
+        "correctIndex": 0,
+        "why": "Bring the AE in when the opportunity is qualified, and give a clean handoff in HubSpot.",
+        "example": "The used car manager confirms the pain, fits the ICP and agrees to a demo with the GM. Now hand it to the AE with notes in HubSpot."
+      }
+    ]
+  },
+  {
+    "key": "final",
+    "week": "Week 4",
+    "title": "Final go-live assessment",
+    "description": "Scenario-based questions across every module. Pass at 75% to be considered for go-live.",
+    "questions": [
+      {
+        "topic": "Turn speed",
+        "prompt": "A franchise Honda rooftop's used cars take about 9 days to go live after acquisition. What is your strongest opening angle?",
+        "options": [
+          "Compare 9 days with a 3 to 5 day benchmark and show what the extra days cost per vehicle",
+          "Lead with the number of AI features",
+          "Say their website is outdated",
+          "Ask them to switch DMS"
+        ],
+        "correctIndex": 0,
+        "why": "Talk days and dollars on their own inventory. That is the dealer's metric.",
+        "example": "'Your used cars take about 9 days to go live; good stores do it in 3 to 5. At $50 a day, those extra days cost about $200 or more per car.'"
+      },
+      {
+        "topic": "Personas",
+        "prompt": "The BDC manager sounds worried Vini AI will replace their team. Best approach?",
+        "options": [
+          "Position Vini as covering after-hours, overflow and status calls so the team focuses on booked appointments, and involve them in the plan",
+          "Confirm it will replace their team",
+          "Go around them to the GM without acknowledging the concern",
+          "Drop the account"
+        ],
+        "correctIndex": 0,
+        "why": "The BDC manager can block the deal. Make them a winner in the outcome.",
+        "example": "'Vini picks up the after-hours and overflow calls your team can't reach, so your people spend their time on booked appointments.'"
+      },
+      {
+        "topic": "Data vetting",
+        "prompt": "Your list shows a GM who, according to LinkedIn, left that store six months ago. What do you do?",
+        "options": [
+          "Update the record in HubSpot, find the current GM and re-vet the rest of the account",
+          "Email the old GM anyway",
+          "Delete the whole account",
+          "Ignore it"
+        ],
+        "correctIndex": 0,
+        "why": "Fix the data, find the right person and check whether other contacts are also stale.",
+        "example": "The GM on your list left six months ago. Update HubSpot, find the new GM, and check whether other contacts at that store are out of date too."
+      },
+      {
+        "topic": "Personalization",
+        "prompt": "Which signal on a dealer website suggests a strong Studio AI fit?",
+        "options": [
+          "Used VDPs showing stock photos, mixed backgrounds or 'photos coming soon'",
+          "A modern logo",
+          "A blog",
+          "An online chat widget"
+        ],
+        "correctIndex": 0,
+        "why": "Weak or missing photos on used inventory are visible evidence of the merchandising gap.",
+        "example": "Opening their used inventory page shows half the cars with 'photo coming soon'. That's a strong Studio AI signal."
+      },
+      {
+        "topic": "Objection handling",
+        "prompt": "\"We're happy with our current vendor.\" Best response?",
+        "options": [
+          "Respect it, then ask what they'd improve, for example how quickly new units go live, and whether that's measured",
+          "Say the vendor is bad",
+          "Offer a lower price immediately",
+          "End the call"
+        ],
+        "correctIndex": 0,
+        "why": "Find the gap without attacking the incumbent.",
+        "example": "'Glad it's working. Out of curiosity, how many days does a new unit take to go live today, and is that tracked?'"
+      },
+      {
+        "topic": "SAL criteria",
+        "prompt": "You booked a demo with a sales consultant at an independent selling about 20 cars a year. Is it an SAL?",
+        "options": [
+          "Probably not: it likely fails ICP fit and decision-maker criteria",
+          "Yes: a demo is a demo",
+          "Yes, if you log it fast",
+          "Only on Fridays"
+        ],
+        "correctIndex": 0,
+        "why": "Count only SALs that meet the agreed definition and are accepted by sales.",
+        "example": "A demo with a salesperson at a 20-car-a-year lot fails ICP fit and decision-maker. Don't count it."
+      },
+      {
+        "topic": "KPI framework",
+        "prompt": "Week stats: 40 conversations, 1 meeting. What should coaching focus on?",
+        "options": [
+          "Discovery, objection handling and asking for a specific next step",
+          "Making more dials",
+          "Buying a new list",
+          "Sending more emails"
+        ],
+        "correctIndex": 0,
+        "why": "Plenty of conversations but few meetings points to the conversation and the CTA, not activity.",
+        "example": "40 conversations but only 1 meeting means the talking is happening but the asking isn't. Practise discovery and a specific CTA."
+      },
+      {
+        "topic": "HubSpot",
+        "prompt": "After a great call the prospect agrees to a demo. What goes into HubSpot?",
+        "options": [
+          "Call notes, pain, persona, qualification fields and the meeting date, logged the same day",
+          "Nothing until the demo happens",
+          "Just the phone number",
+          "A copy of the email signature"
+        ],
+        "correctIndex": 0,
+        "why": "Clean, same-day records make the AE handoff and SAL acceptance smooth.",
+        "example": "Log: 'UCM, pain 7 days to live, uses vAuto and Dealer.com, demo Tue 3pm with GM', the same day."
+      },
+      {
+        "topic": "Personas",
+        "prompt": "At most rooftops, who benefits from faster time to line and who signs the contract?",
+        "options": [
+          "The Used Car Manager benefits; the GM usually signs",
+          "The porter benefits; the OEM signs",
+          "The F&I manager benefits; the receptionist signs",
+          "The customer benefits; the technician signs"
+        ],
+        "correctIndex": 0,
+        "why": "The person who feels the pain is rarely the one who signs. Multi-thread both.",
+        "example": "The used car manager feels the slow listings. The GM approves the spend. Keep both in the conversation."
+      },
+      {
+        "topic": "Persona language",
+        "prompt": "Which metric matters most to a Fixed Ops Director?",
+        "options": [
+          "Absorption rate",
+          "Number of photo backgrounds",
+          "Website traffic",
+          "Social media followers"
+        ],
+        "correctIndex": 0,
+        "why": "Absorption is fixed-ops gross over the store's fixed expense. It's how service leaders think.",
+        "example": "A fixed ops director talks about absorption: how much of the store's fixed costs service and parts gross covers."
+      },
+      {
+        "topic": "Positioning",
+        "prompt": "A prospect asks, \"Would we need to replace CDK to use Spyne?\" What's the answer?",
+        "options": [
+          "No. Spyne works alongside the DMS and integrates with it",
+          "Yes, Spyne replaces the DMS",
+          "Yes, but only for used cars",
+          "Spyne doesn't work with any DMS"
+        ],
+        "correctIndex": 0,
+        "why": "Spyne sits above the DMS and never competes with it.",
+        "example": "'No. You keep CDK. Spyne works alongside it and sends the finished images to your website and listings.'"
+      },
+      {
+        "topic": "Cold email",
+        "prompt": "Which subject line is strongest for a Used Car Manager?",
+        "options": [
+          "\"Trade-ins live in 1 day at [Store Name]?\"",
+          "\"Introducing Spyne's AI platform!!!\"",
+          "\"Quick question\"",
+          "\"Partnership opportunity\""
+        ],
+        "correctIndex": 0,
+        "why": "Specific, about their store and their metric. It earns the open honestly.",
+        "example": "'Trade-ins live in 1 day at Crest Ford?' is specific to them and their metric. 'Partnership opportunity' says nothing."
+      }
+    ]
+  }
+]
