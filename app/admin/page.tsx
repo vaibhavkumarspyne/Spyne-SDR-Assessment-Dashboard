@@ -60,8 +60,10 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     notAttempted = trainees.filter((u) => !submitted.has(u.id));
 
     // Question accuracy from each trainee's latest attempt, hardest first.
-    // Written results imported as a total only have no per-question marks, so they can't inform question accuracy.
-    const latest = [...per.values()].map((list) => list[0]).filter((a) => selected.kind === "mcq" || a.marks);
+    // Results imported as a score only carry no per-question answers or marks, so they can't inform question accuracy.
+    const latest = [...per.values()]
+      .map((list) => list[0])
+      .filter((a) => (selected.kind === "written" ? !!a.marks : Object.keys(a.answers).length > 0));
     const qs = await db.select().from(questions).where(eq(questions.testId, selected.id)).orderBy(asc(questions.position));
     if (latest.length) {
       accuracy = qs
