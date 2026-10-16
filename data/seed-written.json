@@ -1,0 +1,85 @@
+[
+  {
+    "key": "w2a",
+    "kind": "written",
+    "week": "Week 2",
+    "title": "Dealership outreach strategy",
+    "description": "Written assignment, marked by your trainer. Answer all three questions for each of your four assigned dealerships: research, email and cold-call pitch. 10 marks per question, 120 in total.",
+    "passPct": 75,
+    "maxAttempts": 1,
+    "questions": [
+      {
+        "topic": "Bob Sight Ford: Company research",
+        "prompt": "Bob Sight Ford. Research the dealership and identify all relevant Ideal Customer Profiles (ICPs). Who are the key decision-makers and stakeholders Spyne should target?",
+        "maxMarks": 10,
+        "why": "Correct dealership type (franchise, independent or part of a group); named people with titles (GM, used car manager, internet/digital manager, marketing head); a note on why each person matters; inventory and photography observations from the website."
+      },
+      {
+        "topic": "Bob Sight Ford: Email drafting",
+        "prompt": "Bob Sight Ford. Draft a personalized outreach email to the decision-makers you identified. Highlight relevant pain points and how Spyne can add value.",
+        "maxMarks": 10,
+        "why": "Subject line; personalized to this dealership, not generic; a specific pain point (time to online, photo consistency, weather, vendor delays); a clear Spyne value point; a single clear call to action."
+      },
+      {
+        "topic": "Bob Sight Ford: Cold calling pitch",
+        "prompt": "Bob Sight Ford. Prepare a calling pitch tailored to the decision-makers, with a clear opening, a relevant value proposition and an objective for the conversation.",
+        "maxMarks": 10,
+        "why": "Short opening that earns attention; discovery questions about their current photo process and tech stack; value proposition tied to their pain; clear objective (book a demo or next meeting); one objection handled."
+      },
+      {
+        "topic": "Crest Ford: Company research",
+        "prompt": "Crest Ford. Research the dealership and identify all relevant Ideal Customer Profiles (ICPs). Who are the key decision-makers and stakeholders Spyne should target?",
+        "maxMarks": 10,
+        "why": "Correct dealership type (franchise, independent or part of a group); named people with titles (GM, used car manager, internet/digital manager, marketing head); a note on why each person matters; inventory and photography observations from the website."
+      },
+      {
+        "topic": "Crest Ford: Email drafting",
+        "prompt": "Crest Ford. Draft a personalized outreach email to the decision-makers you identified. Highlight relevant pain points and how Spyne can add value.",
+        "maxMarks": 10,
+        "why": "Subject line; personalized to this dealership, not generic; a specific pain point (time to online, photo consistency, weather, vendor delays); a clear Spyne value point; a single clear call to action."
+      },
+      {
+        "topic": "Crest Ford: Cold calling pitch",
+        "prompt": "Crest Ford. Prepare a calling pitch tailored to the decision-makers, with a clear opening, a relevant value proposition and an objective for the conversation.",
+        "maxMarks": 10,
+        "why": "Short opening that earns attention; discovery questions about their current photo process and tech stack; value proposition tied to their pain; clear objective (book a demo or next meeting); one objection handled."
+      },
+      {
+        "topic": "Hunter CDJR: Company research",
+        "prompt": "Hunter CDJR. Research the dealership and identify all relevant Ideal Customer Profiles (ICPs). Who are the key decision-makers and stakeholders Spyne should target?",
+        "maxMarks": 10,
+        "why": "Correct dealership type (franchise, independent or part of a group); named people with titles (GM, used car manager, internet/digital manager, marketing head); a note on why each person matters; inventory and photography observations from the website."
+      },
+      {
+        "topic": "Hunter CDJR: Email drafting",
+        "prompt": "Hunter CDJR. Draft a personalized outreach email to the decision-makers you identified. Highlight relevant pain points and how Spyne can add value.",
+        "maxMarks": 10,
+        "why": "Subject line; personalized to this dealership, not generic; a specific pain point (time to online, photo consistency, weather, vendor delays); a clear Spyne value point; a single clear call to action."
+      },
+      {
+        "topic": "Hunter CDJR: Cold calling pitch",
+        "prompt": "Hunter CDJR. Prepare a calling pitch tailored to the decision-makers, with a clear opening, a relevant value proposition and an objective for the conversation.",
+        "maxMarks": 10,
+        "why": "Short opening that earns attention; discovery questions about their current photo process and tech stack; value proposition tied to their pain; clear objective (book a demo or next meeting); one objection handled."
+      },
+      {
+        "topic": "Harr Honda: Company research",
+        "prompt": "Harr Honda. Research the dealership and identify all relevant Ideal Customer Profiles (ICPs). Who are the key decision-makers and stakeholders Spyne should target?",
+        "maxMarks": 10,
+        "why": "Correct dealership type (franchise, independent or part of a group); named people with titles (GM, used car manager, internet/digital manager, marketing head); a note on why each person matters; inventory and photography observations from the website."
+      },
+      {
+        "topic": "Harr Honda: Email drafting",
+        "prompt": "Harr Honda. Draft a personalized outreach email to the decision-makers you identified. Highlight relevant pain points and how Spyne can add value.",
+        "maxMarks": 10,
+        "why": "Subject line; personalized to this dealership, not generic; a specific pain point (time to online, photo consistency, weather, vendor delays); a clear Spyne value point; a single clear call to action."
+      },
+      {
+        "topic": "Harr Honda: Cold calling pitch",
+        "prompt": "Harr Honda. Prepare a calling pitch tailored to the decision-makers, with a clear opening, a relevant value proposition and an objective for the conversation.",
+        "maxMarks": 10,
+        "why": "Short opening that earns attention; discovery questions about their current photo process and tech stack; value proposition tied to their pain; clear objective (book a demo or next meeting); one objection handled."
+      }
+    ]
+  }
+]

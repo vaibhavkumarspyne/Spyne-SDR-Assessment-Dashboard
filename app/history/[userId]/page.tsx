@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { tests, attempts, users } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
 import { formatIST } from "@/lib/time";
+import { isPending } from "@/lib/tests";
 import Header from "@/components/Header";
 
 export default async function HistoryPage({ params }: { params: Promise<{ userId: string }> }) {
@@ -29,7 +30,10 @@ export default async function HistoryPage({ params }: { params: Promise<{ userId
     g.tries.push(r.a);
     groups.set(r.a.testId, g);
   }
-  const bests = [...groups.values()].map((g) => Math.max(...g.tries.map((t) => t.pct)));
+  const bests = [...groups.values()]
+    .map((g) => g.tries.filter((t) => !isPending(t)))
+    .filter((marked) => marked.length)
+    .map((marked) => Math.max(...marked.map((t) => t.pct)));
   const passedTests = [...groups.values()].filter((g) => g.tries.some((t) => t.passed)).length;
   const isSelf = userId === me.id;
 
@@ -59,8 +63,10 @@ export default async function HistoryPage({ params }: { params: Promise<{ userId
                 {g.tries.map((a, i) => (
                   <tr key={a.id}>
                     <td>{i + 1} of {g.maxAttempts}</td>
-                    <td className="c">{a.score}/{a.total}</td>
-                    <td className="c"><span className={`pill ${a.passed ? "pass" : "fail"}`}>{a.pct}%</span></td>
+                    <td className="c">{isPending(a) ? `–/${a.total}` : `${a.score}/${a.total}`}</td>
+                    <td className="c">
+                      {isPending(a) ? <span className="pill wait">Awaiting marking</span> : <span className={`pill ${a.passed ? "pass" : "fail"}`}>{a.pct}%</span>}
+                    </td>
                     <td>{formatIST(a.submittedAt)}</td>
                     <td style={{ textAlign: "right" }}>
                       <Link className="btn ghost sm" href={`/attempts/${a.id}`}>

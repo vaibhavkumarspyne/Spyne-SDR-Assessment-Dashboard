@@ -51,3 +51,15 @@ CREATE TABLE IF NOT EXISTS attempts (
 );
 CREATE INDEX IF NOT EXISTS attempts_user_idx ON attempts (user_id, test_id);
 CREATE INDEX IF NOT EXISTS attempts_test_idx ON attempts (test_id);
+
+-- Written (subjective) tests, added after launch. Columns are added in place so existing data stays.
+ALTER TABLE tests     ADD COLUMN IF NOT EXISTS kind TEXT NOT NULL DEFAULT 'mcq';  -- 'mcq' | 'written'
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS max_marks INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE attempts  ADD COLUMN IF NOT EXISTS marks JSONB;      -- question id -> marks awarded
+ALTER TABLE attempts  ADD COLUMN IF NOT EXISTS feedback JSONB;   -- question id -> marker's comment for the trainee
+ALTER TABLE attempts  ADD COLUMN IF NOT EXISTS graded_at TIMESTAMPTZ;  -- null = waiting for an admin to mark it
+ALTER TABLE attempts  ADD COLUMN IF NOT EXISTS graded_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
+-- Multiple-choice attempts are marked the moment they're submitted.
+UPDATE attempts a SET graded_at = a.submitted_at
+  FROM tests t WHERE t.id = a.test_id AND t.kind = 'mcq' AND a.graded_at IS NULL;
+CREATE INDEX IF NOT EXISTS attempts_ungraded_idx ON attempts (submitted_at) WHERE graded_at IS NULL;

@@ -58,6 +58,8 @@ th.c,td.c{text-align:center}
 .pill.pass{background:var(--pass-bg);color:var(--pass)}
 .pill.fail{background:var(--fail-bg);color:var(--fail)}
 .pill.none{color:var(--muted)}
+.pill.wait{background:var(--wait-bg);color:var(--wait)}
+.answer{white-space:pre-wrap;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:15px}
 .badge{display:inline-block;font:600 13px var(--font-cond),sans-serif;padding:3px 10px;border-radius:999px;white-space:nowrap}
 .badge.live{background:var(--pass-bg);color:var(--pass)}
 .badge.scheduled{background:var(--wait-bg);color:var(--wait)}

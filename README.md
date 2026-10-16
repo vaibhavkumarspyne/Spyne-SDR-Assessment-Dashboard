@@ -35,6 +35,24 @@ CSV header, exactly: `question,option_a,option_b,option_c,option_d,option_e,opti
 
 `correct` is a letter A–F. Options `e` and `f` are optional. `topic`, `why` and `example` are optional but recommended. If any row is wrong, nothing is imported and each problem is listed by row number. The prompt lives in `lib/agentPrompt.ts`, the parser in `lib/csv.ts`; change them together.
 
+## Written tests
+
+Pick **Test type → Written** in the test editor. Each question has marks and a model answer (marking guide). Trainees type an answer per question; drafts are kept in their browser until they submit.
+
+- Submissions land on the **Marking** tab (admins only). Open one, give whole-number marks per question and optional feedback, and save. Marks can be changed later.
+- Until it's marked, an attempt shows as *Awaiting marking*: it's left out of scores, rankings and averages, and the trainee can't retake the test.
+- Once marked, the trainee sees their score. After **Release answers**, they also see each answer with its marks, feedback and the model answer.
+- The Week 2 assignment (*Dealership outreach strategy*: 4 dealerships × research, email, cold-call pitch, 10 marks each, 120 total) is seeded on the next deploy as a written test.
+
+## Importing past results
+
+**Tests → Import results** on any test. Download that test's template, fill it in and upload it. The rows are previewed before anything is saved.
+
+- Multiple choice: `email,name,submitted_at,score[,total]`
+- Written: `email,name,submitted_at,q1_answer,q1_marks,q1_feedback,…` (one set per question, in the test's question order), or just `score` when only a total is known.
+- `submitted_at` is read as IST and accepts Google Forms timestamps; choose DD/MM or MM/DD on the page.
+- New emails are added as trainees. Re-importing the same file skips rows already imported (same person, test and time).
+
 ## Deploy (first time)
 
 1. **GitHub**: put this folder in a new private repo (without `node_modules`, `.next`, `.pglite` or `.env.local`).
@@ -58,6 +76,5 @@ npm run dev
 
 ## Not in this version
 
-- The Week 2 written assignment (free-text answers marked by HR). Planned as a follow-up.
 - Unfinished tests aren't saved as drafts. Closing the tab mid-test loses the answers, but doesn't use up an attempt.
 - No email verification. Anyone who knows a colleague's `@spyne.ai` address could sign in as them **before that person sets their own password**. Ask people to sign in soon after they're added.

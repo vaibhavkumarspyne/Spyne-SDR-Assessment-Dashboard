@@ -34,7 +34,7 @@ export default async function UsersPage() {
 
       <section className="block">
         <h2>People and roles</h2>
-        <p className="h2note">Admins see every answer, every trainee's history, and manage tests and people. Trainees see questions only while taking a test.</p>
+        <p className="h2note">Admins see every answer, every trainee's history, and manage tests and people. Admins also mark written tests on the Marking tab. Trainees see questions only while taking a test.</p>
         <div className="scroll">
           <table style={{ minWidth: 820 }}>
             <thead>

@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { tests, questions, attempts, users } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth";
 import { formatIST } from "@/lib/time";
-import { testStatus } from "@/lib/tests";
+import { isPending, testStatus } from "@/lib/tests";
 import Header from "@/components/Header";
 import StatusBadge from "@/components/StatusBadge";
 
@@ -18,10 +18,13 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const traineeIds = new Set(trainees.map((u) => u.id));
   const nameOf = new Map(trainees.map((u) => [u.id, u.name || u.email]));
   const tAttempts = allAttempts.filter((a) => traineeIds.has(a.userId));
+  // Unmarked written attempts have placeholder scores, so every result below uses marked attempts only.
+  const marked = tAttempts.filter((a) => !isPending(a));
+  const waitingN = tAttempts.length - marked.length;
 
   // Cohort-wide numbers use each trainee's best score per test.
   const best = new Map<string, number>();
-  for (const a of tAttempts) {
+  for (const a of marked) {
     const k = `${a.userId}:${a.testId}`;
     best.set(k, Math.max(best.get(k) ?? 0, a.pct));
   }
@@ -38,8 +41,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   let ranking: { userId: number; best: number; passed: boolean; tries: number; last: Date }[] = [];
   let accuracy: { prompt: string; pct: number; n: number }[] = [];
   let notAttempted: typeof trainees = [];
+  let selectedWaiting = 0;
   if (selected) {
-    const sa = tAttempts.filter((a) => a.testId === selected.id);
+    const submitted = new Set(tAttempts.filter((a) => a.testId === selected.id).map((a) => a.userId));
+    const sa = marked.filter((a) => a.testId === selected.id);
+    selectedWaiting = tAttempts.filter((a) => a.testId === selected.id && isPending(a)).length;
     const per = new Map<number, typeof sa>();
     for (const a of sa) per.set(a.userId, [...(per.get(a.userId) ?? []), a]);
     ranking = [...per.entries()]
@@ -51,15 +57,20 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         last: list[0].submittedAt,
       }))
       .sort((x, y) => y.best - x.best || x.last.getTime() - y.last.getTime());
-    notAttempted = trainees.filter((u) => !per.has(u.id));
+    notAttempted = trainees.filter((u) => !submitted.has(u.id));
 
     // Question accuracy from each trainee's latest attempt, hardest first.
-    const latest = [...per.values()].map((list) => list[0]);
+    // Written results imported as a total only have no per-question marks, so they can't inform question accuracy.
+    const latest = [...per.values()].map((list) => list[0]).filter((a) => selected.kind === "mcq" || a.marks);
     const qs = await db.select().from(questions).where(eq(questions.testId, selected.id)).orderBy(asc(questions.position));
     if (latest.length) {
       accuracy = qs
         .map((q) => {
-          const right = latest.filter((a) => a.answers[String(q.id)] === q.correctIndex).length;
+          // Written: share of the available marks the cohort earned on this question.
+          const right =
+            selected.kind === "written"
+              ? latest.reduce((sum, a) => sum + (a.marks?.[String(q.id)] ?? 0), 0) / q.maxMarks
+              : latest.filter((a) => a.answers[String(q.id)] === q.correctIndex).length;
           return { prompt: q.prompt, pct: Math.round((right / latest.length) * 100), n: latest.length };
         })
         .sort((x, y) => x.pct - y.pct);
@@ -74,6 +85,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <div className="kpi"><b>{trainees.length}</b><span>Trainees</span></div>
         <div className="kpi"><b>{allTests.filter((t) => testStatus(t) === "live").length}</b><span>Tests live now</span></div>
         <div className="kpi"><b>{tAttempts.length}</b><span>Attempts submitted</span></div>
+        {waitingN > 0 && <Link href="/marking" className="kpi" style={{ textDecoration: "none" }}><b style={{ color: "var(--wait)" }}>{waitingN}</b><span>Waiting to be marked</span></Link>}
         <div className="kpi"><b>{bestVals.length ? Math.round(bestVals.reduce((a, b) => a + b, 0) / bestVals.length) + "%" : "–"}</b><span>Cohort average (best scores)</span></div>
       </div>
 
@@ -96,6 +108,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             <div className="kpi"><b>{ranking.length}</b><span>Attempted</span></div>
             <div className="kpi"><b style={{ color: "var(--pass)" }}>{passN}</b><span>Passed</span></div>
             <div className="kpi"><b style={{ color: "var(--fail)" }}>{ranking.length - passN}</b><span>Below pass mark</span></div>
+            {selectedWaiting > 0 && <div className="kpi"><b style={{ color: "var(--wait)" }}>{selectedWaiting}</b><span>Waiting to be marked</span></div>}
             <div className="kpi"><b>{notAttempted.length}</b><span>Not attempted</span></div>
             <div className="kpi"><b>{ranking.length ? Math.round(ranking.reduce((a, r) => a + r.best, 0) / ranking.length) + "%" : "–"}</b><span>Average best score</span></div>
           </div>
@@ -126,7 +139,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           {accuracy.length > 0 && (
             <>
               <h3 style={{ margin: "18px 0 4px" }}>Question accuracy</h3>
-              <p className="h2note">Share of trainees whose latest attempt got it right, hardest first. Use it to plan coaching.</p>
+              <p className="h2note">
+                {selected.kind === "written"
+                  ? "Share of available marks earned on each question across trainees' latest marked attempts, hardest first. Use it to plan coaching."
+                  : "Share of trainees whose latest attempt got it right, hardest first. Use it to plan coaching."}
+              </p>
               <div className="scroll">
                 <table style={{ minWidth: 560 }}>
                   <tbody>
@@ -156,9 +173,13 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
                 <tr key={a.id}>
                   <td><strong>{nameOf.get(a.userId)}</strong></td>
                   <td>{allTests.find((t) => t.id === a.testId)?.title}</td>
-                  <td className="c"><span className={`pill ${a.passed ? "pass" : "fail"}`}>{a.pct}%</span></td>
+                  <td className="c">
+                    {isPending(a) ? <span className="pill wait">Awaiting marking</span> : <span className={`pill ${a.passed ? "pass" : "fail"}`}>{a.pct}%</span>}
+                  </td>
                   <td>{formatIST(a.submittedAt)}</td>
-                  <td style={{ textAlign: "right" }}><Link className="btn ghost sm" href={`/attempts/${a.id}`}>Open</Link></td>
+                  <td style={{ textAlign: "right" }}>
+                    <Link className="btn ghost sm" href={isPending(a) ? `/marking/${a.id}` : `/attempts/${a.id}`}>{isPending(a) ? "Mark" : "Open"}</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

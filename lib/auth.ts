@@ -72,8 +72,13 @@ export async function requireUser(): Promise<User> {
   return user;
 }
 
+/** Where each role lands after sign-in. */
+export function homeFor(user: Pick<User, "role">): string {
+  return user.role === "admin" ? "/admin" : "/tests";
+}
+
 export async function requireAdmin(): Promise<User> {
   const user = await requireUser();
-  if (user.role !== "admin") redirect("/tests");
+  if (user.role !== "admin") redirect(homeFor(user));
   return user;
 }

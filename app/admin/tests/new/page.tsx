@@ -12,7 +12,7 @@ export default async function NewTestPage() {
       <Header user={me} active="/admin/tests" />
       <h2 style={{ marginBottom: 14 }}>New test</h2>
       <TestEditor
-        test={{ title: "", week: "", description: "", passPct: 75, maxAttempts: 2, liveAt: tomorrow }}
+        test={{ title: "", week: "", description: "", kind: "mcq", passPct: 75, maxAttempts: 2, liveAt: tomorrow }}
         initialQuestions={[]}
         locked={false}
       />

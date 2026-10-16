@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { tests, questions, attempts, type Attempt } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
 import { formatIST } from "@/lib/time";
-import { testStatus } from "@/lib/tests";
+import { isPending, testStatus } from "@/lib/tests";
 import Header from "@/components/Header";
 import StatusBadge from "@/components/StatusBadge";
 
@@ -38,8 +38,10 @@ export default async function TraineeTestsPage() {
           const status = testStatus(t);
           const tries = byTest.get(t.id) ?? [];
           const latest = tries[0];
-          const best = tries.length ? Math.max(...tries.map((a) => a.pct)) : null;
-          const passed = tries.some((a) => a.passed);
+          const marked = tries.filter((a) => !isPending(a));
+          const waiting = tries.some(isPending);
+          const best = marked.length ? Math.max(...marked.map((a) => a.pct)) : null;
+          const passed = marked.some((a) => a.passed);
           const left = Math.max(0, t.maxAttempts - tries.length);
 
           let action: React.ReactNode = null;
@@ -47,12 +49,14 @@ export default async function TraineeTestsPage() {
           if (status === "scheduled") {
             meta = `Opens ${formatIST(t.liveAt)}`;
           } else if (status === "live") {
-            meta = tries.length
+            meta = waiting
+              ? "Submitted. Waiting for your trainer to mark it."
+              : tries.length
               ? `${tries.length} of ${t.maxAttempts} attempts used. Answers will show once your trainer releases them.`
-              : `${t.maxAttempts} attempt${t.maxAttempts === 1 ? "" : "s"} · pass mark ${t.passPct}%`;
+              : `${t.kind === "written" ? "Written, marked by your trainer · " : ""}${t.maxAttempts} attempt${t.maxAttempts === 1 ? "" : "s"} · pass mark ${t.passPct}%`;
             action = (
               <>
-                {left > 0 && !passed && (
+                {left > 0 && !passed && !waiting && (
                   <Link className="btn" href={`/tests/${t.id}/take`}>{tries.length ? "Retake test" : "Start test"}</Link>
                 )}
                 {latest && <Link className="btn ghost sm" href={`/attempts/${latest.id}`}>View result</Link>}
@@ -72,6 +76,7 @@ export default async function TraineeTestsPage() {
                 <p>{qCount} questions · {meta}</p>
               </div>
               <div className="right">
+                {waiting && best == null && <span className="pill wait">Awaiting marking</span>}
                 {best != null && <span className={`pill ${passed ? "pass" : "fail"}`}>Best {best}%</span>}
                 {action}
               </div>
