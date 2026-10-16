@@ -7,14 +7,16 @@ import { and, asc, count, eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users, tests, questions, attempts } from "@/db/schema";
 import {
-  endSession, initialAdmins, isAllowedEmail, normalizeEmail, requireAdmin, requireUser, startSession,
+  endSession, homeFor, initialAdmins, isAllowedEmail, normalizeEmail, requireAdmin, requireUser, startSession,
 } from "@/lib/auth";
 import { parseISTLocal } from "@/lib/time";
-import { scoreAttempt, testStatus } from "@/lib/tests";
+import { resultsFromCsv } from "@/lib/resultsCsv";
+import { isPending, scoreAttempt, scoreMarks, testStatus } from "@/lib/tests";
 
 export type FormState = { error?: string; ok?: string } | undefined;
 
 const str = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
+const MAX_ANSWER_CHARS = 20_000;
 
 /* ---------------- sign in ---------------- */
 
@@ -40,7 +42,7 @@ export async function login(_prev: FormState, form: FormData): Promise<FormState
 
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
   await startSession(user);
-  redirect(user.role === "admin" ? "/admin" : "/tests");
+  redirect(homeFor(user));
 }
 
 export async function logout() {
@@ -89,9 +91,10 @@ export async function removeUser(userId: number) {
 
 /* ---------------- tests (admin) ---------------- */
 
-type QuestionInput = { topic: string; prompt: string; options: string[]; correctIndex: number; why: string; example: string };
+type QuestionInput = { topic: string; prompt: string; options: string[]; correctIndex: number; maxMarks: number; why: string; example: string };
+type TestKind = "mcq" | "written";
 
-function parseQuestions(raw: string): QuestionInput[] | string {
+function parseQuestions(raw: string, kind: TestKind): QuestionInput[] | string {
   let data: unknown;
   try { data = JSON.parse(raw); } catch { return "Couldn't read the questions. Reload and try again."; }
   if (!Array.isArray(data) || data.length === 0) return "Add at least one question.";
@@ -99,6 +102,14 @@ function parseQuestions(raw: string): QuestionInput[] | string {
   for (const [i, q] of data.entries()) {
     const n = i + 1;
     const prompt = String(q?.prompt ?? "").trim();
+    if (kind === "written") {
+      // why holds the model answer / marking guide the admin marks against.
+      const maxMarks = Number(q?.maxMarks);
+      if (!prompt) return `Question ${n} has no question text.`;
+      if (!Number.isInteger(maxMarks) || maxMarks < 1 || maxMarks > 100) return `Question ${n} needs marks between 1 and 100.`;
+      out.push({ prompt, options: [], correctIndex: -1, maxMarks, topic: String(q?.topic ?? "").trim(), why: String(q?.why ?? "").trim(), example: "" });
+      continue;
+    }
     const options = Array.isArray(q?.options) ? q.options.map((o: unknown) => String(o ?? "").trim()) : [];
     const correctIndex = Number(q?.correctIndex);
     if (!prompt) return `Question ${n} has no question text.`;
@@ -106,7 +117,7 @@ function parseQuestions(raw: string): QuestionInput[] | string {
     if (!Number.isInteger(correctIndex) || correctIndex < 0 || correctIndex >= options.length)
       return `Question ${n} has no correct answer selected.`;
     out.push({
-      prompt, options, correctIndex,
+      prompt, options, correctIndex, maxMarks: 1,
       topic: String(q?.topic ?? "").trim(),
       why: String(q?.why ?? "").trim(),
       example: String(q?.example ?? "").trim(),
@@ -130,17 +141,23 @@ export async function saveTest(_prev: FormState, form: FormData): Promise<FormSt
   if (!Number.isInteger(passPct) || passPct < 1 || passPct > 100) return { error: "Pass mark must be between 1 and 100." };
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 10) return { error: "Attempts must be between 1 and 10." };
 
-  const meta = { title, week, description, passPct, maxAttempts, liveAt };
+  let kind: TestKind = str(form, "kind") === "written" ? "written" : "mcq";
   let locked = false;
   if (id) {
     const [{ n }] = await db.select({ n: count() }).from(attempts).where(eq(attempts.testId, id));
     locked = n > 0;
+    // The type is part of the questions, so it freezes with them.
+    if (locked) {
+      const [existing] = await db.select({ kind: tests.kind }).from(tests).where(eq(tests.id, id));
+      if (existing) kind = existing.kind;
+    }
   }
+  const meta = { title, week, description, kind, passPct, maxAttempts, liveAt };
 
   // Once anyone has attempted, questions are frozen so past scores and reviews stay true.
   let qs: QuestionInput[] = [];
   if (!locked) {
-    const parsed = parseQuestions(String(form.get("questions") ?? ""));
+    const parsed = parseQuestions(String(form.get("questions") ?? ""), kind);
     if (typeof parsed === "string") return { error: parsed };
     qs = parsed;
   }
@@ -184,24 +201,31 @@ export async function submitAttempt(testId: number, startedAtIso: string, form: 
   const [test] = await db.select().from(tests).where(eq(tests.id, testId));
   if (!test || testStatus(test) !== "live") redirect("/tests");
 
-  const [{ n }] = await db
-    .select({ n: count() })
+  const mine = await db
+    .select({ gradedAt: attempts.gradedAt })
     .from(attempts)
     .where(and(eq(attempts.testId, testId), eq(attempts.userId, me.id)));
-  if (n >= test.maxAttempts) redirect("/tests");
+  // No retake while the last written attempt is still waiting to be marked.
+  if (mine.length >= test.maxAttempts || mine.some(isPending)) redirect("/tests");
 
   const qs = await db
-    .select({ id: questions.id, correctIndex: questions.correctIndex })
+    .select({ id: questions.id, correctIndex: questions.correctIndex, maxMarks: questions.maxMarks })
     .from(questions)
     .where(eq(questions.testId, testId))
     .orderBy(asc(questions.position));
 
-  const answers: Record<string, number> = {};
+  const answers: Record<string, number | string> = {};
   for (const q of qs) {
     const v = form.get(`q${q.id}`);
-    if (v !== null && v !== "") answers[String(q.id)] = Number(v);
+    if (v === null || v === "") continue;
+    if (test.kind === "written") {
+      const text = String(v).trim().slice(0, MAX_ANSWER_CHARS);
+      if (text) answers[String(q.id)] = text;
+    } else answers[String(q.id)] = Number(v);
   }
-  const result = scoreAttempt(qs, answers, test.passPct);
+  // Written attempts are stored unmarked (0 out of the full marks) until an admin marks them.
+  const written = test.kind === "written";
+  const result = written ? { ...scoreMarks(qs, {}, test.passPct), passed: false } : scoreAttempt(qs, answers, test.passPct);
   const startedAt = new Date(startedAtIso);
 
   const [row] = await db
@@ -209,9 +233,103 @@ export async function submitAttempt(testId: number, startedAtIso: string, form: 
     .values({
       testId, userId: me.id, answers, ...result,
       startedAt: isNaN(startedAt.getTime()) ? null : startedAt,
+      gradedAt: written ? null : new Date(),
     })
     .returning({ id: attempts.id });
 
   revalidatePath("/tests");
   redirect(`/attempts/${row.id}`);
+}
+
+/* ---------------- marking written tests (admin) ---------------- */
+
+export async function gradeAttempt(attemptId: number, _prev: FormState, form: FormData): Promise<FormState> {
+  const me = await requireAdmin();
+  const [a] = await db.select().from(attempts).where(eq(attempts.id, attemptId));
+  if (!a) return { error: "That submission no longer exists." };
+  const [test] = await db.select().from(tests).where(eq(tests.id, a.testId));
+  if (!test || test.kind !== "written") return { error: "Only written tests are marked by hand." };
+
+  const qs = await db
+    .select({ id: questions.id, maxMarks: questions.maxMarks })
+    .from(questions)
+    .where(eq(questions.testId, test.id))
+    .orderBy(asc(questions.position));
+
+  const marks: Record<string, number> = {};
+  const feedback: Record<string, string> = {};
+  for (const [i, q] of qs.entries()) {
+    const raw = str(form, `m${q.id}`);
+    const m = Number(raw);
+    if (raw === "" || !Number.isInteger(m) || m < 0 || m > q.maxMarks)
+      return { error: `Question ${i + 1} needs a whole number of marks from 0 to ${q.maxMarks}.` };
+    marks[String(q.id)] = m;
+    const note = str(form, `f${q.id}`).slice(0, MAX_ANSWER_CHARS);
+    if (note) feedback[String(q.id)] = note;
+  }
+
+  await db
+    .update(attempts)
+    .set({ ...scoreMarks(qs, marks, test.passPct), marks, feedback, gradedAt: new Date(), gradedBy: me.id })
+    .where(eq(attempts.id, attemptId));
+  revalidatePath("/marking");
+  revalidatePath("/admin");
+  revalidatePath("/tests");
+  redirect("/marking");
+}
+
+/* ---------------- past results import (admin) ---------------- */
+
+export async function importResults(testId: number, _prev: FormState, form: FormData): Promise<FormState> {
+  const me = await requireAdmin();
+  const [test] = await db.select().from(tests).where(eq(tests.id, testId));
+  if (!test) return { error: "That test no longer exists." };
+  const qs = await db
+    .select({ id: questions.id, maxMarks: questions.maxMarks })
+    .from(questions)
+    .where(eq(questions.testId, testId))
+    .orderBy(asc(questions.position));
+
+  // The browser already previewed the file; parse it again here so nothing unchecked reaches the database.
+  const order = str(form, "dateOrder") === "mdy" ? "mdy" : "dmy";
+  const { rows, errors } = resultsFromCsv(String(form.get("csv") ?? ""), { kind: test.kind, questions: qs }, order);
+  if (errors.length) return { error: `Nothing was imported. ${errors.slice(0, 5).join(" ")}${errors.length > 5 ? ` …and ${errors.length - 5} more.` : ""}` };
+  if (!rows.length) return { error: "The file has no result rows." };
+
+  let added = 0, skipped = 0, newPeople = 0;
+  await db.transaction(async (tx) => {
+    for (const r of rows) {
+      let [user] = await tx.select().from(users).where(eq(users.email, r.email));
+      if (!user) {
+        [user] = await tx.insert(users).values({ email: r.email, name: r.name || null, role: "trainee" }).returning();
+        newPeople++;
+      } else if (!user.name && r.name) {
+        await tx.update(users).set({ name: r.name }).where(eq(users.id, user.id));
+      }
+      const submittedAt = r.submittedAt ? new Date(r.submittedAt) : new Date();
+      // Re-importing the same file is safe: an attempt with the same person, test and time is skipped.
+      if (r.submittedAt) {
+        const [dupe] = await tx
+          .select({ id: attempts.id })
+          .from(attempts)
+          .where(and(eq(attempts.testId, testId), eq(attempts.userId, user.id), eq(attempts.submittedAt, submittedAt)));
+        if (dupe) { skipped++; continue; }
+      }
+      const pct = Math.round((r.score / r.total) * 100);
+      await tx.insert(attempts).values({
+        testId, userId: user.id, answers: r.answers, score: r.score, total: r.total, pct, passed: pct >= test.passPct,
+        marks: r.marks, feedback: test.kind === "written" ? r.feedback : null,
+        submittedAt, gradedAt: submittedAt, gradedBy: me.id,
+      });
+      added++;
+    }
+  });
+  revalidatePath("/admin");
+  revalidatePath("/admin/tests");
+  revalidatePath("/marking");
+  return {
+    ok: `Imported ${added} result${added === 1 ? "" : "s"}` +
+      (skipped ? `, skipped ${skipped} already imported` : "") +
+      (newPeople ? `, added ${newPeople} new trainee${newPeople === 1 ? "" : "s"}` : "") + ".",
+  };
 }

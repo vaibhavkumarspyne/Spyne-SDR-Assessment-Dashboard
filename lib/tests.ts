@@ -1,4 +1,4 @@
-import type { Test, Question, User } from "@/db/schema";
+import type { Attempt, Test, Question, User } from "@/db/schema";
 
 export type TestStatus = "scheduled" | "live" | "released";
 
@@ -17,11 +17,24 @@ export function canSeeAnswers(user: User, test: Test, hasAttempted: boolean): bo
   return !!test.answersReleasedAt && hasAttempted;
 }
 
-export function scoreAttempt(qs: Pick<Question, "id" | "correctIndex">[], answers: Record<string, number>, passPct: number) {
-  const score = qs.filter((q) => answers[String(q.id)] === q.correctIndex).length;
-  const total = qs.length;
+function result(score: number, total: number, passPct: number) {
   const pct = total ? Math.round((score / total) * 100) : 0;
   return { score, total, pct, passed: pct >= passPct };
+}
+
+export function scoreAttempt(qs: Pick<Question, "id" | "correctIndex">[], answers: Record<string, number | string>, passPct: number) {
+  return result(qs.filter((q) => answers[String(q.id)] === q.correctIndex).length, qs.length, passPct);
+}
+
+/** Written tests: score is marks awarded out of the sum of each question's max marks. */
+export function scoreMarks(qs: Pick<Question, "id" | "maxMarks">[], marks: Record<string, number>, passPct: number) {
+  const score = qs.reduce((sum, q) => sum + (marks[String(q.id)] ?? 0), 0);
+  return result(score, qs.reduce((sum, q) => sum + q.maxMarks, 0), passPct);
+}
+
+/** A written attempt nobody has marked yet. Its score, pct and passed are placeholders, so leave it out of results. */
+export function isPending(a: Pick<Attempt, "gradedAt">): boolean {
+  return !a.gradedAt;
 }
 
 export function shuffled<T>(items: T[]): T[] {
@@ -34,3 +47,5 @@ export function shuffled<T>(items: T[]): T[] {
 }
 
 export const LETTERS = ["A", "B", "C", "D", "E", "F"];
+
+export const TEST_KIND_LABEL = { mcq: "Multiple choice", written: "Written" } as const;

@@ -21,11 +21,11 @@ export default async function EditTestPage({ params }: { params: Promise<{ id: s
       <h2 style={{ marginBottom: 14 }}>Edit: {t.title}</h2>
       <TestEditor
         test={{
-          id: t.id, title: t.title, week: t.week, description: t.description,
+          id: t.id, title: t.title, week: t.week, description: t.description, kind: t.kind,
           passPct: t.passPct, maxAttempts: t.maxAttempts, liveAt: toISTLocal(t.liveAt),
         }}
         initialQuestions={qs.map((q) => ({
-          topic: q.topic, prompt: q.prompt, options: q.options, correctIndex: q.correctIndex, why: q.why, example: q.example,
+          topic: q.topic, prompt: q.prompt, options: q.options, correctIndex: q.correctIndex, maxMarks: q.maxMarks, why: q.why, example: q.example,
         }))}
         locked={n > 0}
       />

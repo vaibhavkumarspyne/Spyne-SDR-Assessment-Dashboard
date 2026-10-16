@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { tests, questions, attempts } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth";
 import { formatIST } from "@/lib/time";
-import { testStatus } from "@/lib/tests";
+import { TEST_KIND_LABEL, testStatus } from "@/lib/tests";
 import { deleteTest, setAnswersReleased } from "@/app/actions";
 import Header from "@/components/Header";
 import ConfirmButton from "@/components/ConfirmButton";
@@ -47,7 +47,7 @@ export default async function AdminTestsPage() {
               <div>
                 <div className="row"><h3>{t.title}</h3><StatusBadge status={status} /></div>
                 <p>
-                  {qCount} questions · pass {t.passPct}% · {t.maxAttempts} attempt{t.maxAttempts === 1 ? "" : "s"} ·{" "}
+                  {TEST_KIND_LABEL[t.kind]} · {qCount} questions · pass {t.passPct}% · {t.maxAttempts} attempt{t.maxAttempts === 1 ? "" : "s"} ·{" "}
                   {status === "scheduled" ? "goes live " : "went live "} {formatIST(t.liveAt)}
                 </p>
                 <p>
@@ -76,6 +76,7 @@ export default async function AdminTestsPage() {
                 <div className="row">
                   <Link className="btn ghost sm" href={`/admin/tests/${t.id}/edit`}>Edit</Link>
                   <Link className="btn ghost sm" href={`/admin?test=${t.id}`}>Results</Link>
+                  <Link className="btn ghost sm" href={`/admin/tests/${t.id}/import`}>Import results</Link>
                   <ConfirmButton
                     action={deleteTest.bind(null, t.id)}
                     message={`Delete "${t.title}" and all of its attempts? This can't be undone.`}

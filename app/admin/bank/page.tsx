@@ -31,7 +31,9 @@ export default async function BankPage() {
               <span className="row" style={{ display: "inline-flex" }}>
                 <strong>{t.week ? `${t.week}: ` : ""}{t.title}</strong>
                 <StatusBadge status={testStatus(t)} />
-                <span className="small">{list.length} questions · live {formatIST(t.liveAt)}</span>
+                <span className="small">
+                  {t.kind === "written" ? `Written · ${list.reduce((s, q) => s + q.maxMarks, 0)} marks · ` : ""}{list.length} questions · live {formatIST(t.liveAt)}
+                </span>
               </span>
             </summary>
             <div style={{ padding: "0 18px 18px" }}>
@@ -39,8 +41,15 @@ export default async function BankPage() {
               {list.map((q, i) => (
                 <div key={q.id} className="q">
                   <div style={{ fontWeight: 600, marginBottom: 10, display: "flex", gap: 10 }}>
-                    <span className="qn">{i + 1}</span><span>{q.prompt}</span>
+                    <span className="qn">{i + 1}</span><span style={{ flex: 1, whiteSpace: "pre-wrap" }}>{q.prompt}</span>
+                    {t.kind === "written" && <span className="small" style={{ flex: "none" }}>{q.maxMarks} marks</span>}
                   </div>
+                  {t.kind === "written" ? (
+                    <div className="explain">
+                      <div><strong>Model answer / marking guide: </strong><span style={{ whiteSpace: "pre-wrap" }}>{q.why || "None given."}</span></div>
+                      {q.topic && <div className="small">Topic: {q.topic}</div>}
+                    </div>
+                  ) : (<>
                   {q.options.map((o, k) => (
                     <div key={k} className={`opt ${k === q.correctIndex ? "right" : ""}`}>
                       <span className="letter">{LETTERS[k]}</span><span>{o}</span>
@@ -52,6 +61,7 @@ export default async function BankPage() {
                     {q.example && <div><strong>Example: </strong>{q.example}</div>}
                     {q.topic && <div className="small">Topic: {q.topic}</div>}
                   </div>
+                  </>)}
                 </div>
               ))}
             </div>

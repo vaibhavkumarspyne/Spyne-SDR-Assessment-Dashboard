@@ -19,6 +19,8 @@ export const tests = pgTable("tests", {
   title: text("title").notNull(),
   week: text("week").notNull().default(""),
   description: text("description").notNull().default(""),
+  // mcq: auto-scored. written: free-text answers an admin marks by hand.
+  kind: text("kind", { enum: ["mcq", "written"] }).notNull().default("mcq"),
   passPct: integer("pass_pct").notNull().default(75),
   maxAttempts: integer("max_attempts").notNull().default(2),
   liveAt: ts("live_at").notNull(),
@@ -33,8 +35,10 @@ export const questions = pgTable("questions", {
   position: integer("position").notNull(),
   topic: text("topic").notNull().default(""),
   prompt: text("prompt").notNull(),
+  // Written questions: options is [], correct_index is -1, and why holds the model answer.
   options: jsonb("options").$type<string[]>().notNull(),
   correctIndex: integer("correct_index").notNull(),
+  maxMarks: integer("max_marks").notNull().default(1),
   why: text("why").notNull().default(""),
   example: text("example").notNull().default(""),
 });
@@ -43,14 +47,20 @@ export const attempts = pgTable("attempts", {
   id: serial("id").primaryKey(),
   testId: integer("test_id").notNull().references(() => tests.id, { onDelete: "cascade" }),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  // question id -> chosen option index (original order)
-  answers: jsonb("answers").$type<Record<string, number>>().notNull(),
+  // question id -> chosen option index (original order) for mcq, or the typed answer for written
+  answers: jsonb("answers").$type<Record<string, number | string>>().notNull(),
   score: integer("score").notNull(),
   total: integer("total").notNull(),
   pct: integer("pct").notNull(),
   passed: boolean("passed").notNull(),
   startedAt: ts("started_at"),
   submittedAt: ts("submitted_at").notNull().defaultNow(),
+  // Written tests only: question id -> marks awarded, and question id -> the marker's comment.
+  marks: jsonb("marks").$type<Record<string, number>>(),
+  feedback: jsonb("feedback").$type<Record<string, string>>(),
+  // Null while a written attempt waits for an admin to mark it; score, pct and passed mean nothing until it's set.
+  gradedAt: ts("graded_at"),
+  gradedBy: integer("graded_by").references(() => users.id, { onDelete: "set null" }),
 });
 
 export type User = typeof users.$inferSelect;
